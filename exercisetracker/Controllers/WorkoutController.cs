@@ -13,18 +13,31 @@ public class WorkoutController : ControllerBase
     
     // GET
     [HttpGet]
-    public IExercise Get()
+    public ActionResult<List<IExercise>> Get()
     {
-        var result = new Run()
+        var result = new List<RunningExercise>
         {
-            Id = Guid.NewGuid(),
-            ExerciseId = Guid.NewGuid(),
-            Date = DateTime.Today,
-            Notes = "This is a test exercise set",
-            Distance = 10,
-            Time = 100
+            new RunningExercise()
+            {
+                Id = Guid.NewGuid(),
+                ExerciseId = Guid.NewGuid(),
+                Date = DateTime.Today,
+                Notes = "This is a test exercise set",
+                Outside = true,
+                Distance = 10,
+                Time = 100
+            },
+            new RunningExercise()
+            {
+                Id = Guid.NewGuid(),
+                ExerciseId = Guid.NewGuid(),
+                Date = DateTime.Today,
+                Notes = "This is a another exercise set",
+                Distance = 5,
+                Time = 50
+            }
         };
-    return result;
+        return Ok  (result);
     // public WorkoutSession Get()
     // {
     //     var result = new WorkoutSession()
