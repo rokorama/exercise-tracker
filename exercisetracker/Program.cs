@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using exercisetracker.Data;
+using exercisetracker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 
 var app = builder.Build();
 
