@@ -1,4 +1,5 @@
 using exercisetracker.Models;
+using exercisetracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace exercisetracker.Controllers;
@@ -7,9 +8,17 @@ namespace exercisetracker.Controllers;
 [Route("[controller]")]
 public class WorkoutController : ControllerBase
 {
-    [HttpPost]
-    public IActionResult Post(WorkoutSession session)
+    private IWorkoutService _workoutService;
+
+    public WorkoutController(IWorkoutService workoutService)
     {
-        return Ok();
+        _workoutService = workoutService;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Post(WorkoutSession session)
+    {
+        var result = await _workoutService.CreateWorkoutSessionAsync(session);
+        return Ok(result);
     }
 }
