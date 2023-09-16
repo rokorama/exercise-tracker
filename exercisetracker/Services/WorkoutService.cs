@@ -1,5 +1,4 @@
 using exercisetracker.Data;
-using exercisetracker.Models;
 
 namespace exercisetracker.Services;
 

@@ -1,5 +1,3 @@
-using exercisetracker.Models;
-
 namespace exercisetracker.Services;
 
 public interface IWorkoutService

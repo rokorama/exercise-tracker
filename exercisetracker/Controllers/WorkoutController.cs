@@ -1,5 +1,3 @@
-using exercisetracker.Models;
-using exercisetracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace exercisetracker.Controllers;
