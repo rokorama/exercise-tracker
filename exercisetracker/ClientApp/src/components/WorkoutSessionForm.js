@@ -40,11 +40,11 @@ export class WorkoutSessionForm extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                    // workoutSession: {
+                    workoutSession: {
                         id: '486ca60b-8c2c-411e-b54e-67c74a4fb925',
                         date: '',
                         notes: ''
-                    // }
+                    }
                 });
             });
     }
