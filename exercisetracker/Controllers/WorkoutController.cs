@@ -44,6 +44,7 @@ public class WorkoutController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        return Ok(_workoutService.DeleteWorkoutSessionAsync(id));
+        var result = await _workoutService.DeleteWorkoutSessionAsync(id);
+        return Ok(result);
     }
 }

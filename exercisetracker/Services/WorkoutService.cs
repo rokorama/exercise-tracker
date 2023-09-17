@@ -11,28 +11,68 @@ public class WorkoutService : IWorkoutService
         _workoutRepository = workoutRepository;
     }
     
-    public async Task<WorkoutSession> CreateWorkoutSessionAsync(WorkoutSession session)
+    public async Task<ServiceResponse<WorkoutSession>> CreateWorkoutSessionAsync(WorkoutSession session)
     {
-        return await _workoutRepository.CreateWorkoutSessionAsync(session);
+        var result = new ServiceResponse<WorkoutSession>();
+        result.Data = await _workoutRepository.CreateWorkoutSessionAsync(session);
+        if (result.Data == null)
+        {
+            result.Message = "Workout session could not be created";
+            result.Success = false;
+        }
+
+        return result;
     }
     
-    public async Task<WorkoutSession> GetWorkoutSessionAsync(Guid id)
+    public async Task<ServiceResponse<WorkoutSession>> GetWorkoutSessionAsync(Guid id)
     {
-        return await _workoutRepository.GetWorkoutSessionAsync(id);
+        var result = new ServiceResponse<WorkoutSession>();
+        result.Data = await _workoutRepository.GetWorkoutSessionAsync(id);
+        if (result.Data == null)
+        {
+            result.Message = "Workout session with given ID not found";
+            result.Success = false;
+        }
+
+        return result;
     }
     
-    public async Task<List<WorkoutSession>> GetWorkoutSessionsByUserAsync(Guid userId)
+    public async Task<ServiceResponse<List<WorkoutSession>>> GetWorkoutSessionsByUserAsync(Guid userId)
     {
-        return await _workoutRepository.GetWorkoutSessionsByUserAsync(userId);
+        var result = new ServiceResponse<List<WorkoutSession>>();
+        result.Data = await _workoutRepository.GetWorkoutSessionsByUserAsync(userId);
+        if (result.Data == null)
+        {
+            result.Message = "No workout sessions with given user ID found";
+            result.Success = false;
+        }
+
+        return result;
     }
     
-    public async Task<WorkoutSession> UpdateWorkoutSessionAsync(WorkoutSession session)
+    public async Task<ServiceResponse<WorkoutSession>> UpdateWorkoutSessionAsync(WorkoutSession session)
     {
-        return await _workoutRepository.UpdateWorkoutSessionAsync(session);
+        var result = new ServiceResponse<WorkoutSession>();
+        result.Data = await _workoutRepository.UpdateWorkoutSessionAsync(session);
+        if (result.Data == null)
+        {
+            result.Message = "Workout session could not be updated";
+            result.Success = false;
+        }
+        
+        return result;
     }
     
-    public async Task DeleteWorkoutSessionAsync(Guid id)
+    public async Task<ServiceResponse<bool>> DeleteWorkoutSessionAsync(Guid id)
     {
-        await _workoutRepository.DeleteWorkoutSessionAsync(id);
+        var result = new ServiceResponse<bool>();
+        result.Data = await _workoutRepository.DeleteWorkoutSessionAsync(id);
+        if (!result.Data)
+        {
+            result.Message = "Workout session could not be deleted";
+            result.Success = false;
+        }
+
+        return result;
     }
 }

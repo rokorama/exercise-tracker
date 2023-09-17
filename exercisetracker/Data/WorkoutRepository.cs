@@ -35,10 +35,10 @@ public class WorkoutRepository : IWorkoutRepository
         return session;
     }
     
-    public async Task DeleteWorkoutSessionAsync(Guid id)
+    public async Task<bool> DeleteWorkoutSessionAsync(Guid id)
     {
         var session = await GetWorkoutSessionAsync(id);
         _context.WorkoutSessions.Remove(session);
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync() > 0;
     }
 }
