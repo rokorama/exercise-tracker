@@ -30,9 +30,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "api/{controller}/{id?}");
+app.MapGet("api/test", () => new { Test = "hello i am api" });
+
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "api/{controller}/{id?}");
+
 
 app.UseSwagger();
 app.UseSwaggerUI();
