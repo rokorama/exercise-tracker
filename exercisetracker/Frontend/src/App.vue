@@ -7,6 +7,7 @@
       <ul>
         <li><router-link to="/">Exercise Tracker</router-link></li>
         <li id="user-button"><router-link to="/login">Login</router-link></li>
+        <li id="user-button"><router-link to="/register">Register</router-link></li>
       </ul>
     </header>
     <div id="router-view">
