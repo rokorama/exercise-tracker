@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using exercisetracker.Data;
+using exercisetracker.Services.AuthService;
 using exercisetracker.Services.WorkoutService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddSwaggerGen();
