@@ -66,20 +66,16 @@ public class AuthService : IAuthService
 
     public async Task<bool> UserExists(string username)
     {
-        if (await _context.Users.AnyAsync(user => user.Username.ToLower().Equals(username.ToLower())))
-        {
-            return true;
-        }
-        return false;
+        return await _context.Users.AnyAsync(user => user.Username.ToLower().Equals(username.ToLower()));
     }
 
     private string CreateToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role),
+            new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new (ClaimTypes.Name, user.Username),
+            new (ClaimTypes.Role, user.Role)
         };
 
         DotNetEnv.Env.Load();

@@ -1,6 +1,6 @@
 using exercisetracker.Data;
 
-namespace exercisetracker.Services;
+namespace exercisetracker.Services.WorkoutService;
 
 public class WorkoutService : IWorkoutService
 {
