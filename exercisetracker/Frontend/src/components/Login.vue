@@ -1,29 +1,25 @@
 <script setup>
 
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from 'axios';
+import {createRouter as router} from "vue-router";
 
 const username = ref('');
 const password = ref('');
 
 async function handleClick() {
-  await fetch("https://localhost:44420/api/auth/login",
-      {
-        method: "POST",
-        body: JSON.stringify({
-              Username: username.value,
-              Password: password.value
-            }
-        ),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        response.json().then((data) => {
-          console.log(data.data)
-        }).catch(() => console.log("An error has occured, please try again."))
-      })
+  await axios.post("https://localhost:44420/api/auth/login", JSON.stringify({
+    Username: username.value,
+    Password: password.value
+  }), {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(() => {
+    router.back();
+  }).catch(() => {
+    console.log("An error occured while logging in. Please try again later.")
+  })
 }
 </script>
 
