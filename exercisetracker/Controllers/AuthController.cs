@@ -28,16 +28,22 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<ServiceResponse<string>>> Login([FromBody] UserLogin userLogin)
+    public async Task<ActionResult> Login([FromBody] UserLogin userLogin)
     {
         var response = await _authService.Login(userLogin);
 
         if (!response.Success)
         {
-            return BadRequest(response);
+            return BadRequest();
         }
+        
+        Response.Cookies.Append(key: "jwt", value: response.Data, new CookieOptions
+        {
+            HttpOnly=false,
+            SameSite=SameSiteMode.Strict
+        });
 
-        return Ok(response);
+        return Ok();
     }
     
     [HttpPost("change-password"), Authorize]
