@@ -6,6 +6,7 @@
     <header>
       <ul>
         <li><router-link to="/">Exercise Tracker</router-link></li>
+        <li><router-link to="/workout">Create Workout Session</router-link></li>
         <li id="user-button"><router-link to="/login">Login</router-link></li>
         <li id="user-button"><router-link to="/register">Register</router-link></li>
       </ul>
@@ -17,15 +18,20 @@
 </template>
 
 <style scoped>
+#app {
+  width:100%;
+}
+
 header {
+  width: 100%;
   background-color: #9294cb;
   top: 0;
-  width: 100%;
   position: fixed;
 }
 
 #router-view {
   height: 100%;
+  width: 100%;
 }
 
 ul {
