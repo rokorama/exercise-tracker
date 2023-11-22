@@ -6,5 +6,5 @@ public interface IAuthService
     Task<bool> UserExists(string username);
     Task<ServiceResponse<string>> Login(UserLogin userLogin);
     Task<ServiceResponse<bool>> ChangePassword(Guid userId, string newPassword);
-    // Guid GetUserId();
+    Guid GetUserId();
 }

@@ -7,13 +7,13 @@ import {createRouter as router} from "vue-router";
 const username = ref('');
 const password = ref('');
 
-async function handleClick() {
+async function handleLogin() {
   await axios.post("https://localhost:44420/api/auth/login", JSON.stringify({
     Username: username.value,
     Password: password.value
   }), {
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     }
   }).then(() => {
     router.back();
@@ -30,7 +30,7 @@ async function handleClick() {
     <br>
     <input type="password" required placeholder="Password" v-model="password">
     <br>
-    <button type="button" @click="handleClick">Log in</button>
+    <button type="button" @click="handleLogin">Log in</button>
   </form>
 </template>
 

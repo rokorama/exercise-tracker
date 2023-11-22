@@ -8,7 +8,7 @@ const password = ref('');
 const passwordConfirm = ref('');
 const passwordsMatch = ref(true);
 
-async function handleClick() {
+async function handleRegister() {
   await axios.post("https://localhost:44420/api/auth/login", JSON.stringify({
     Username: username.value,
     Password: password.value,
@@ -48,7 +48,7 @@ async function handleClick() {
     >
     <br>
     <p v-if="!passwordsMatch">Passwords do not match!</p>
-    <button type="button" :disabled="!passwordsMatch" @click="handleClick">Register</button>
+    <button type="button" :disabled="!passwordsMatch" @click="handleRegister">Register</button>
   </form>
 </template>
 

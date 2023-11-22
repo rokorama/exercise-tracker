@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using exercisetracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,13 +10,12 @@ namespace exercisetracker.Services.AuthService;
 public class AuthService : IAuthService
 {
     private readonly DataContext _context;
-    // private readonly IHttpContextAccessor _httpAccessor;
+    private readonly IHttpContextAccessor _httpAccessor;
 
-    public AuthService(DataContext context)
-    // public AuthService(DataContext context, IConfiguration configuration, IHttpContextAccessor httpAccessor)
+    public AuthService(DataContext context, IHttpContextAccessor httpAccessor)
     {
         _context = context;
-        // _httpAccessor = httpAccessor;
+        _httpAccessor = httpAccessor;
     }
 
     public async Task<ServiceResponse<string>> Login(UserLogin userLogin)
@@ -80,7 +80,7 @@ public class AuthService : IAuthService
 
         DotNetEnv.Env.Load();
         
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8
+        var key = new SymmetricSecurityKey(Encoding.UTF8
             .GetBytes(Environment.GetEnvironmentVariable("JWT_TOKEN")));
 
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -118,5 +118,5 @@ public class AuthService : IAuthService
         };
     }
 
-    // public Guid GetUserId() => Guid.Parse(_httpAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+    public Guid GetUserId() => Guid.Parse(_httpAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 }
