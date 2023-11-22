@@ -57,21 +57,7 @@ public class AuthController : ControllerBase
 
         return Ok(response);
     }
-
-    // [HttpGet("user"), Authorize]
-    // public async Task<ActionResult<ServiceResponse<User>>> GetUser()
-    // {
-    //     try
-    //     {
-    //         var jwt = Request.Cookies["jwt"];
-    //         var user = 
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e);
-    //         throw;
-    //     }
-    // }
+    
     [HttpGet("userid"), Authorize]
     public ActionResult<Guid> GetUserId()
     {
