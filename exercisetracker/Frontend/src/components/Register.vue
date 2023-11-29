@@ -9,7 +9,7 @@ const passwordConfirm = ref('');
 const passwordsMatch = ref(true);
 
 async function handleRegister() {
-  await axios.post("https://localhost:44420/api/auth/login", JSON.stringify({
+  await axios.post("https://localhost:44420/api/auth/register", JSON.stringify({
     Username: username.value,
     Password: password.value,
     ConfirmPassword: passwordConfirm.value

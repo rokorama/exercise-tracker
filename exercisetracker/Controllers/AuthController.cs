@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<ServiceResponse<Guid>>> Register(UserRegister request)
     {
-        var response = await _authService.Register(new User { Username = request.Username}, request.Password);
+        var response = await _authService.Register(request);
 
         if (!response.Success)
             return BadRequest(response);
@@ -31,17 +31,16 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> Login([FromBody] UserLogin userLogin)
     {
         var response = await _authService.Login(userLogin);
-
         if (!response.Success)
         {
             return BadRequest();
         }
         
-        Response.Cookies.Append(key: "jwt", value: response.Data, new CookieOptions
-        {
-            HttpOnly=false,
-            SameSite=SameSiteMode.Strict
-        });
+        // Response.Cookies.Append(key: "jwt", value: response.Data, new CookieOptions
+        // {
+        //     HttpOnly=false,
+        //     SameSite=SameSiteMode.Strict
+        // });
 
         return Ok();
     }
@@ -58,10 +57,10 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("userid"), Authorize]
-    public ActionResult<Guid> GetUserId()
+    [HttpGet("user"), Authorize]
+    public ActionResult<Guid> GetUser()
     {
-        var result = _authService.GetUserId();
+        var result = _authService.GetUser();
         return Ok(result);
     }
 }

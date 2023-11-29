@@ -3,6 +3,7 @@ using exercisetracker.Data;
 using exercisetracker.Services.AuthService;
 using exercisetracker.Services.WorkoutService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,10 @@ builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddAuthentication(x =>
     {
         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -33,18 +38,20 @@ builder.Services.AddAuthentication(x =>
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters()
         {
+            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_TOKEN"))),
-            ValidateIssuer = false,
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET"))),
+            ValidateIssuer = true,
             ValidateLifetime = true,
-            ValidateAudience = false,
+            ValidateAudience = true,
             ClockSkew = TimeSpan.Zero,
         };
     });
 
-var app = builder.Build();
+builder.Services.AddAuthorization();
 
-app.UseRouting();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -60,8 +67,6 @@ else
     app.UseStaticFiles();
 }
 
-// app.MapGet("api/test", () => new { Test = "hello i am api" });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller}/{id?}");
@@ -69,6 +74,7 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html");
 
 app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 
 app.Run();
